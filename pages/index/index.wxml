@@ -91,7 +91,7 @@ module.exports = {
         <image class="jd-section-icon" src="../../images/home/miaosha.png"></image>
         <text class="jd-section-name">限时秒杀</text>
       </view>
-      <view class="jd-section-more">更多 ></view>
+      <!-- <view class="jd-section-more">更多 ></view> -->
     </view>
     <view class="jd-seckill-container">
       <view class="jd-seckill-item" wx:for="{{miaoshaGoods}}" wx:key="id" bindtap="toDetailsTap"

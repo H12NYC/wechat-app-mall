@@ -208,13 +208,13 @@ module.exports = {
     return request(COMMON_BASE_URL + subDomain + '/common/ip/v2', false, 'get', { ip: ip });
   },
   forexRate: function forexRate(fromCode, toCode) {
-    return request('/forex/rate', true, 'get', { fromCode: fromCode, toCode: toCode });
+    return request(COMMON_BASE_URL + subDomain + '/forex/rate', false, 'get', { fromCode: fromCode, toCode: toCode });
   },
   queryConfigValue: function queryConfigValue(key) {
-    return request(COMMON_BASE_URL + subDomain + '/config/value', true, 'get', { key: key });
+    return request(COMMON_BASE_URL + subDomain + '/config/value', false, 'get', { key: key });
   },
   queryConfigBatch: function queryConfigBatch(keys) {
-    return request(COMMON_BASE_URL + subDomain + '/config/values', true, 'get', { keys: keys });
+    return request(COMMON_BASE_URL + subDomain + '/config/values', false, 'get', { keys: keys });
   },
   scoreRules: function scoreRules(data) {
     return request('/score/send/rule', true, 'post', data);
@@ -386,10 +386,10 @@ module.exports = {
     return request('/pay/wxfws/wxapp', true, 'post', data);
   },
   ttpay: function ttpay(data) {
-    return request('/pay/tt/microapp', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/tt/microapp', false, 'post', data);
   },
   ttEcpay: function ttEcpay(data) {
-    return request('/pay/tt/ecpay', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/tt/ecpay', false, 'post', data);
   },
   payQuery: function payQuery(token, outTradeId) {
     return request('/pay/query', true, 'get', { token: token, outTradeId: outTradeId });
@@ -416,28 +416,28 @@ module.exports = {
     return request('/pay/wxsph/getpaymentparams', true, 'post', { token: token, orderId: orderId });
   },
   paypalCheckout: function paypalCheckout(data) {
-    return request('/pay/paypal/checkout', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/paypal/checkout', false, 'post', data);
   },
   alipay: function alipay(data) {
     return request('/pay/alipay/semiAutomatic/payurl', true, 'post', data);
   },
   alipayMP: function alipayMP(data) {
-    return request('/pay/alipay/gate/mp', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/alipay/gate/mp', false, 'post', data);
   },
   alipayAPP: function alipayAPP(data) {
-    return request('/pay/alipay/gate/app', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/alipay/gate/app', false, 'post', data);
   },
   alipayQrcode: function alipayQrcode(data) {
-    return request('/pay/alipay/gate/qrcode', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/alipay/gate/qrcode', false, 'post', data);
   },
   alipayQrcode2: function alipayQrcode2(data) {
-    return request('/pay/alipay/gate/paymentCode', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/alipay/gate/paymentCode', false, 'post', data);
   },
   alipayH5: function alipayH5(data) {
-    return request('/pay/alipay/gate/h5', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/alipay/gate/h5', false, 'post', data);
   },
   alipayPC: function alipayPC(data) {
-    return request('/pay/alipay/gate/pc', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/alipay/gate/pc', false, 'post', data);
   },
   kasipayH5: function kasipayH5(data) {
     return request('/pay/kasipay/h5', true, 'post', data);
@@ -743,49 +743,49 @@ module.exports = {
     return request('/goods/seckill/grab', true, 'post', { token: token, goodsId: goodsId, seconds: seconds });
   },
   coupons: function coupons(data) {
-    return request('/discounts/coupons', true, 'get', data);
+    return request(COMMON_BASE_URL + subDomain + '/discounts/coupons', false, 'get', data);
   },
   couponDetail: function couponDetail(id) {
-    return request('/discounts/detail', true, 'get', {
+    return request(COMMON_BASE_URL + subDomain + '/discounts/detail', false, 'get', {
       id: id
     });
   },
   couponStatistics: function couponStatistics(token) {
-    return request('/discounts/statistics', true, 'get', { token: token });
+    return request(COMMON_BASE_URL + subDomain + '/discounts/statistics', false, 'get', { token: token });
   },
   myCoupons: function myCoupons(data) {
-    return request('/discounts/my', true, 'get', data);
+    return request(COMMON_BASE_URL + subDomain + '/discounts/my', false, 'get', data);
   },
   mergeCouponsRules: function mergeCouponsRules() {
-    return request('/discounts/merge/list', true, 'get');
+    return request(COMMON_BASE_URL + subDomain + '/discounts/merge/list', false, 'get');
   },
   mergeCoupons: function mergeCoupons(data) {
-    return request('/discounts/merge', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/discounts/merge', false, 'post', data);
   },
   fetchCoupons: function fetchCoupons(data) {
-    return request('/discounts/fetch', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/discounts/fetch', false, 'post', data);
   },
   sendCoupons: function sendCoupons(data) {
-    return request('/discounts/send', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/discounts/send', false, 'post', data);
   },
   exchangeCoupons: function exchangeCoupons(token, number, pwd) {
     var extJsonStr = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
 
-    return request('/discounts/exchange', true, 'post', {
+    return request(COMMON_BASE_URL + subDomain + '/discounts/exchange', false, 'post', {
       token: token, number: number, pwd: pwd, extJsonStr: extJsonStr
     });
   },
   couponsShareOpen: function couponsShareOpen(token, id) {
-    return request('/discounts/share/open', true, 'post', { token: token, id: id });
+    return request(COMMON_BASE_URL + subDomain + '/discounts/share/open', false, 'post', { token: token, id: id });
   },
   couponsShareClose: function couponsShareClose(token, id) {
-    return request('/discounts/share/close', true, 'post', { token: token, id: id });
+    return request(COMMON_BASE_URL + subDomain + '/discounts/share/close', false, 'post', { token: token, id: id });
   },
   couponsShareFetch: function couponsShareFetch(token, id, shareToken) {
-    return request('/discounts/share/fetch', true, 'post', { token: token, id: id, shareToken: shareToken });
+    return request(COMMON_BASE_URL + subDomain + '/discounts/share/fetch', false, 'post', { token: token, id: id, shareToken: shareToken });
   },
   couponsHX: function couponsHX(data) {
-    return request('/discounts/hx', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/discounts/hx', false, 'post', data);
   },
   noticeList: function noticeList(data) {
     return request('/notice/list', true, 'post', data);
@@ -1492,13 +1492,13 @@ module.exports = {
     return request('/newsSign/check', true, 'get', { token: token, newsId: newsId });
   },
   invoiceList: function invoiceList(data) {
-    return request('/invoice/list', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/invoice/list', false, 'post', data);
   },
   invoiceApply: function invoiceApply(data) {
-    return request('/invoice/apply', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/invoice/apply', false, 'post', data);
   },
   invoiceDetail: function invoiceDetail(token, id) {
-    return request('/invoice/info', true, 'get', { token: token, id: id });
+    return request(COMMON_BASE_URL + subDomain + '/invoice/info', false, 'get', { token: token, id: id });
   },
   depositList: function depositList(data) {
     return request('/deposit/list', true, 'post', data);
@@ -1634,16 +1634,16 @@ module.exports = {
     return request('/barcode/info', true, 'get', { barcode: barcode });
   },
   luckyInfo: function luckyInfo(id) {
-    return request('/luckyInfo/info/v2', true, 'get', { id: id });
+    return request(COMMON_BASE_URL + subDomain + '/luckyInfo/info/v2', false, 'get', { id: id });
   },
   luckyInfoJoin: function luckyInfoJoin(id, token) {
-    return request('/luckyInfo/join', true, 'post', { id: id, token: token });
+    return request(COMMON_BASE_URL + subDomain + '/luckyInfo/join', false, 'post', { id: id, token: token });
   },
   luckyInfoJoinMy: function luckyInfoJoinMy(id, token) {
-    return request('/luckyInfo/join/my', true, 'get', { id: id, token: token });
+    return request(COMMON_BASE_URL + subDomain + '/luckyInfo/join/my', false, 'get', { id: id, token: token });
   },
   luckyInfoJoinLogs: function luckyInfoJoinLogs(data) {
-    return request('/luckyInfo/join/logs', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/luckyInfo/join/logs', false, 'post', data);
   },
   jsonList: function jsonList(data) {
     return request('/json/list', true, 'post', data);
@@ -2016,22 +2016,22 @@ module.exports = {
     return request(COMMON_BASE_URL + '/subdomain/appid/wxapp', false, 'get', { appid: appid });
   },
   cmsArticleFavPut: function cmsArticleFavPut(token, newsId) {
-    return request('/cms/news/fav/add', true, 'post', { token: token, newsId: newsId });
+    return request(CMS_BASE_URL + subDomain + '/cms/news/fav/add', false, 'post', { token: token, newsId: newsId });
   },
   cmsArticleFavCheck: function cmsArticleFavCheck(token, newsId) {
-    return request('/cms/news/fav/check', true, 'get', { token: token, newsId: newsId });
+    return request(CMS_BASE_URL + subDomain + '/cms/news/fav/check', false, 'get', { token: token, newsId: newsId });
   },
   cmsArticleFavList: function cmsArticleFavList(data) {
     return request('/cms/news/fav/list', true, 'post', data);
   },
   cmsArticleFavListV2: function cmsArticleFavListV2(data) {
-    return request('/cms/news/fav/list/v2', true, 'post', data);
+    return request(CMS_BASE_URL + subDomain + '/cms/news/fav/list/v2', false, 'post', data);
   },
   cmsArticleFavDeleteById: function cmsArticleFavDeleteById(token, id) {
-    return request('/cms/news/fav/delete', true, 'post', { token: token, id: id });
+    return request(CMS_BASE_URL + subDomain + '/cms/news/fav/delete', false, 'post', { token: token, id: id });
   },
   cmsArticleFavDeleteByNewsId: function cmsArticleFavDeleteByNewsId(token, newsId) {
-    return request('/cms/news/fav/delete', true, 'post', { token: token, newsId: newsId });
+    return request(CMS_BASE_URL + subDomain + '/cms/news/fav/delete', false, 'post', { token: token, newsId: newsId });
   },
   shippingCarInfo: function shippingCarInfo(token) {
     var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
@@ -2846,13 +2846,13 @@ module.exports = {
     return request('/bottleMsg/salvage', true, 'get', { token: token });
   },
   userInvoiceInfo: function userInvoiceInfo(token) {
-    return request('/userInvoice/info', true, 'get', { token: token });
+    return request(COMMON_BASE_URL + subDomain + '/userInvoice/info', false, 'get', { token: token });
   },
   userInvoiceUnbind: function userInvoiceUnbind(token) {
-    return request('/userInvoice/unbind', true, 'post', { token: token });
+    return request(COMMON_BASE_URL + subDomain + '/userInvoice/unbind', false, 'post', { token: token });
   },
   userInvoiceBind: function userInvoiceBind(data) {
-    return request('/userInvoice/bind', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/userInvoice/bind', false, 'post', data);
   },
   goodsLendsList: function goodsLendsList(data) {
     return request('/goodsLends/list', true, 'post', data);
@@ -2871,7 +2871,7 @@ module.exports = {
     return request(COMMON_BASE_URL + subDomain + '/user/aliapp/authorize', false, 'post', data);
   },
   aliappWebUserAuthorize: function aliappWebUserAuthorize(data) {
-    return request('/user/aliappweb/authorize', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/user/aliappweb/authorize', false, 'post', data);
   },
   aliappQrcode: function aliappQrcode(content) {
     return request(COMMON_BASE_URL + subDomain + '/user/aliapp/qrcode', false, 'post', { content: content });
@@ -3198,10 +3198,10 @@ module.exports = {
     return request('/shopIot/execute', true, 'post', data);
   },
   wxTemplateNumberList: function wxTemplateNumberList(token) {
-    return request('/wxTemplateNumber/list', true, 'get', { token: token });
+    return request(COMMON_BASE_URL + subDomain + '/wxTemplateNumber/list', false, 'get', { token: token });
   },
   wxTemplateNumberSubscribe: function wxTemplateNumberSubscribe(data) {
-    return request('/wxTemplateNumber/subscribe', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/wxTemplateNumber/subscribe', false, 'post', data);
   },
   errandsTaskPublish: function errandsTaskPublish(data) {
     return request('/errandsTask/publish', true, 'post', data);
@@ -3219,31 +3219,31 @@ module.exports = {
     return request('/errandsTask/success', true, 'post', data);
   },
   activityVoteInfoList: function activityVoteInfoList(data) {
-    return request('/activityVoteInfo/list', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/activityVoteInfo/list', false, 'post', data);
   },
   activityVoteInfoJoinList: function activityVoteInfoJoinList(data) {
-    return request('/activityVoteInfo/joinList', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/activityVoteInfo/joinList', false, 'post', data);
   },
   activityVoteInfoDetail: function activityVoteInfoDetail(id) {
-    return request('/activityVoteInfo/detail', true, 'get', { id: id });
+    return request(COMMON_BASE_URL + subDomain + '/activityVoteInfo/detail', false, 'get', { id: id });
   },
   activityVoteInfoJoinDetail: function activityVoteInfoJoinDetail(joinId) {
-    return request('/activityVoteInfo/joinDetail', true, 'get', { joinId: joinId });
+    return request(COMMON_BASE_URL + subDomain + '/activityVoteInfo/joinDetail', false, 'get', { joinId: joinId });
   },
   activityVoteInfoScoreToVotes: function activityVoteInfoScoreToVotes(activityId) {
-    return request('/activityVoteInfo/scoreToVotes', true, 'get', { activityId: activityId });
+    return request(COMMON_BASE_URL + subDomain + '/activityVoteInfo/scoreToVotes', false, 'get', { activityId: activityId });
   },
   activityVoteInfoFetchVoteNumber: function activityVoteInfoFetchVoteNumber(data) {
-    return request('/activityVoteInfo/fetchVoteNumber', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/activityVoteInfo/fetchVoteNumber', false, 'post', data);
   },
   activityVoteInfoJoin: function activityVoteInfoJoin(data) {
-    return request('/activityVoteInfo/join', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/activityVoteInfo/join', false, 'post', data);
   },
   activityVoteInfoVote: function activityVoteInfoVote(data) {
-    return request('/activityVoteInfo/vote', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/activityVoteInfo/vote', false, 'post', data);
   },
   activityVoteBlance: function activityVoteBlance(token, activityId) {
-    return request('/activityVoteInfo/balance', true, 'get', { token: token, activityId: activityId });
+    return request(COMMON_BASE_URL + subDomain + '/activityVoteInfo/balance', false, 'get', { token: token, activityId: activityId });
   },
   stringsToPlainText: function stringsToPlainText(content) {
     var len = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
@@ -3251,37 +3251,40 @@ module.exports = {
     return request('/common/strings/plainText', true, 'post', { content: content, len: len });
   },
   blindBoxFriendsMatch: function blindBoxFriendsMatch(data) {
-    return request('/blindBoxFriends/match', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/match', false, 'post', data);
   },
   blindBoxFriendsPush: function blindBoxFriendsPush(data) {
-    return request('/blindBoxFriends/push', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/push', false, 'post', data);
   },
   blindBoxFriendsPay: function blindBoxFriendsPay(data) {
-    return request('/blindBoxFriends/pay', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/pay', false, 'post', data);
   },
   blindBoxFriendsChangeStatus: function blindBoxFriendsChangeStatus(data) {
-    return request('/blindBoxFriends/changeStatus', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/changeStatus', false, 'post', data);
   },
   blindBoxFriendsDelete: function blindBoxFriendsDelete(data) {
-    return request('/blindBoxFriends/delete', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/delete', false, 'post', data);
   },
   blindBoxFriendsPullLogs: function blindBoxFriendsPullLogs(data) {
-    return request('/blindBoxFriends/pullLogs', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/pullLogs', false, 'post', data);
   },
   blindBoxFriendsPushLogs: function blindBoxFriendsPushLogs(data) {
-    return request('/blindBoxFriends/pushLogs', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/pushLogs', false, 'post', data);
   },
   blindBoxFriendsRechargeRule: function blindBoxFriendsRechargeRule() {
-    return request('/blindBoxFriends/rechargeRule', true, 'get');
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/rechargeRule', false, 'get');
   },
   blindBoxFriendsBuyPullTimes: function blindBoxFriendsBuyPullTimes(data) {
-    return request('/blindBoxFriends/buyPullTimes', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/buyPullTimes', false, 'post', data);
   },
   blindBoxFriendsUnlock: function blindBoxFriendsUnlock(data) {
-    return request('/blindBoxFriends/unlock', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/unlock', false, 'post', data);
   },
   blindBoxFriendsBalance: function blindBoxFriendsBalance(token) {
-    return request('/blindBoxFriends/balance', true, 'get', { token: token });
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/balance', false, 'get', { token: token });
+  },
+  blindBoxFriendsSetting: function blindBoxFriendsSetting() {
+    return request(COMMON_BASE_URL + subDomain + '/blindBoxFriends/setting', false, 'get');
   },
   cpactivityInfoDetail: function cpactivityInfoDetail(id) {
     return request(COMMON_BASE_URL + subDomain + '/cpactivityInfo/detail', false, 'get', { id: id });
@@ -3594,6 +3597,45 @@ module.exports = {
   },
   goodsOutofstockRegistration: function goodsOutofstockRegistration(data) {
     return request(COMMON_BASE_URL + subDomain + '/shop/goods/outofstockRegistration', false, 'post', data);
+  },
+  ventrataProducts: function ventrataProducts(data) {
+    return request(COMMON_BASE_URL + subDomain + '/ventrata/products', false, 'get', data);
+  },
+  ventrataProductDetail: function ventrataProductDetail(data) {
+    return request(COMMON_BASE_URL + subDomain + '/ventrata/productDetail', false, 'get', data);
+  },
+  ventrataAvailability: function ventrataAvailability(data) {
+    return request(COMMON_BASE_URL + subDomain + '/ventrata/availability', false, 'post', data);
+  },
+  ventrataBookings: function ventrataBookings(data) {
+    return request(COMMON_BASE_URL + subDomain + '/ventrata/bookings', false, 'post', data);
+  },
+  ventrataBookingsCancel: function ventrataBookingsCancel(data) {
+    return request(COMMON_BASE_URL + subDomain + '/ventrata/bookingsCancel', false, 'post', data);
+  },
+  ventrataBookingsConfirm: function ventrataBookingsConfirm(data) {
+    return request(COMMON_BASE_URL + subDomain + '/ventrata/bookingsConfirm', false, 'post', data);
+  },
+  ventrataBookingsDetail: function ventrataBookingsDetail(data) {
+    return request(COMMON_BASE_URL + subDomain + '/ventrata/bookingsDetail', false, 'get', data);
+  },
+  ventrataBookingsUpdate: function ventrataBookingsUpdate(data) {
+    return request(COMMON_BASE_URL + subDomain + '/ventrata/bookingsUpdate', false, 'post', data);
+  },
+  dabAddressList: function dabAddressList(data) {
+    return request(COMMON_BASE_URL + subDomain + '/dab/addressList', false, 'get', data);
+  },
+  dabAddressDetail: function dabAddressDetail(data) {
+    return request(COMMON_BASE_URL + subDomain + '/dab/addressDetail', false, 'get', data);
+  },
+  dabGetBusinessPartner: function dabGetBusinessPartner(data) {
+    return request(COMMON_BASE_URL + subDomain + '/dab/getBusinessPartner', false, 'get', data);
+  },
+  dabGetInventories: function dabGetInventories(data) {
+    return request(COMMON_BASE_URL + subDomain + '/dab/getInventories', false, 'get', data);
+  },
+  dabGetPrice: function dabGetPrice(data) {
+    return request(COMMON_BASE_URL + subDomain + '/dab/getPrice', false, 'get', data);
   }
 };
 

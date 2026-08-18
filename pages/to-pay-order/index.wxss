@@ -600,6 +600,19 @@ form {
   background: #F5F5F5;
 }
 
+.picker-confirm-btn {
+  font-size: 28rpx;
+  color: #ffffff;
+  background: #FF4D4F;
+  padding: 12rpx 32rpx;
+  border-radius: 30rpx;
+  font-weight: 500;
+}
+
+.picker-confirm-btn:active {
+  opacity: 0.8;
+}
+
 .coupon-picker-list {
   box-sizing: border-box;
   flex: 1;

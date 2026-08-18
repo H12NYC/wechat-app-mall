@@ -6,6 +6,7 @@ Page({
       orderId:0,
       goodsList:[],
       customerServiceType: CONFIG.customerServiceType,
+      couponDetailExpanded: false,
     },
     onLoad:function(e){
       // e.id = e.sfsdffd
@@ -113,6 +114,11 @@ Page({
       var orderId = e.currentTarget.dataset.id;
       wx.navigateTo({
         url: "/pages/wuliu/index?id=" + orderId
+      })
+    },
+    toggleCouponDetail() {
+      this.setData({
+        couponDetailExpanded: !this.data.couponDetailExpanded
       })
     },
     confirmBtnTap:function(e){

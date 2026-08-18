@@ -39,8 +39,10 @@ Page({
     hasNoCoupons: true,
     coupons: [],
     couponAmount: 0, //优惠券金额
-    curCoupon: null, // 当前选择使用的优惠券
+    curCoupon: null, // 当前选择使用的优惠券（单选模式）
+    selectedCoupons: [], // 当前选择使用的优惠券（多选模式）
     curCouponShowText: '请选择使用优惠券', // 当前选择使用的优惠券
+    couponUseMultiple: CONFIG.couponUseMultiple || false, // 是否允许使用多张优惠券
     peisongType: 'kd', // 配送方式 kd,zq 分别表示快递/到店自取
     remark: '',
     shopIndex: -1,
@@ -319,7 +321,9 @@ Page({
         postData.code = this.data.curAddressData.code;
       }
     }
-    if (this.data.curCoupon) {
+    if (this.data.couponUseMultiple && this.data.selectedCoupons.length > 0) {
+      postData.couponId = this.data.selectedCoupons.map(c => c.id).join(',');
+    } else if (this.data.curCoupon) {
       postData.couponId = this.data.curCoupon.id;
     }
     if (!e) {
@@ -417,7 +421,9 @@ Page({
         const curShop = shopList[index]
         console.log(curShop);
         postData.filterShopId = curShop.id
-        if (curShop.curCoupon) {
+        if (this.data.couponUseMultiple && curShop.selectedCoupons && curShop.selectedCoupons.length > 0) {
+          postData.couponId = curShop.selectedCoupons.map(c => c.id).join(',')
+        } else if (curShop.curCoupon) {
           postData.couponId = curShop.curCoupon.id
         } else {
           postData.couponId = ''
@@ -459,8 +465,24 @@ Page({
             curShop.curCouponShowText = '请选择使用优惠券'
             curShop.coupons = res.data.couponUserList
             if (res.data.couponId && res.data.couponId.length > 0) {
-              curShop.curCoupon = curShop.coupons.find(ele => { return ele.id == res.data.couponId[0] })
-              curShop.curCouponShowText = curShop.curCoupon.nameExt
+              if (this.data.couponUseMultiple) {
+                const selectedCoupons = []
+                res.data.couponId.forEach(cid => {
+                  const found = curShop.coupons.find(ele => ele.id == cid)
+                  if (found) {
+                    found.checked = true
+                    selectedCoupons.push(found)
+                  }
+                })
+                curShop.selectedCoupons = selectedCoupons
+                curShop.curCoupon = selectedCoupons.length > 0 ? selectedCoupons[0] : null
+                curShop.curCouponShowText = selectedCoupons.length > 0
+                  ? '已选择' + selectedCoupons.length + '张优惠券'
+                  : '请选择使用优惠券'
+              } else {
+                curShop.curCoupon = curShop.coupons.find(ele => { return ele.id == res.data.couponId[0] })
+                curShop.curCouponShowText = curShop.curCoupon.nameExt
+              }
             }
           }
           shopList.splice(index, 1, curShop)
@@ -513,7 +535,9 @@ Page({
     } else {
       // 单门店单商品下单
       if (shopList && shopList.length == 1) {
-        if (shopList[0].curCoupon) {
+        if (this.data.couponUseMultiple && shopList[0].selectedCoupons && shopList[0].selectedCoupons.length > 0) {
+          postData.couponId = shopList[0].selectedCoupons.map(c => c.id).join(',')
+        } else if (shopList[0].curCoupon) {
           postData.couponId = shopList[0].curCoupon.id
         } else {
           postData.couponId = ''
@@ -558,8 +582,24 @@ Page({
             curShop.curCouponShowText = '请选择使用优惠券'
             curShop.coupons = res.data.couponUserList
             if (res.data.couponId && res.data.couponId.length > 0) {
-              curShop.curCoupon = curShop.coupons.find(ele => { return ele.id == res.data.couponId[0] })
-              curShop.curCouponShowText = curShop.curCoupon.nameExt
+              if (this.data.couponUseMultiple) {
+                const selectedCoupons = []
+                res.data.couponId.forEach(cid => {
+                  const found = curShop.coupons.find(ele => ele.id == cid)
+                  if (found) {
+                    found.checked = true
+                    selectedCoupons.push(found)
+                  }
+                })
+                curShop.selectedCoupons = selectedCoupons
+                curShop.curCoupon = selectedCoupons.length > 0 ? selectedCoupons[0] : null
+                curShop.curCouponShowText = selectedCoupons.length > 0
+                  ? '已选择' + selectedCoupons.length + '张优惠券'
+                  : '请选择使用优惠券'
+              } else {
+                curShop.curCoupon = curShop.coupons.find(ele => { return ele.id == res.data.couponId[0] })
+                curShop.curCouponShowText = curShop.curCoupon.nameExt
+              }
             }
             shopList[0] = curShop
           }
@@ -1002,7 +1042,14 @@ Page({
   
   // 显示优惠券选择弹窗
   showCouponPicker() {
+    const coupons = this.data.coupons
+    const selectedCoupons = this.data.selectedCoupons || []
+    // 同步 checked 状态
+    coupons.forEach(c => {
+      c.checked = selectedCoupons.some(s => s.id == c.id)
+    })
     this.setData({
+      coupons,
       couponPickerShow: true
     })
   },
@@ -1018,9 +1065,47 @@ Page({
   selectCoupon(e) {
     const index = e.currentTarget.dataset.index
     const selectedCoupon = this.data.coupons[index]
+    if (this.data.couponUseMultiple) {
+      // 多选模式：切换选中状态，不立即触发计算
+      let selectedCoupons = this.data.selectedCoupons.slice()
+      const coupons = this.data.coupons
+      const existIndex = selectedCoupons.findIndex(c => c.id == selectedCoupon.id)
+      if (existIndex > -1) {
+        selectedCoupons.splice(existIndex, 1)
+        coupons[index].checked = false
+      } else {
+        selectedCoupons.push(selectedCoupon)
+        coupons[index].checked = true
+      }
+      const curCouponShowText = selectedCoupons.length > 0
+        ? '已选择' + selectedCoupons.length + '张优惠券'
+        : '请选择使用优惠券'
+      this.setData({
+        coupons,
+        selectedCoupons,
+        curCoupon: selectedCoupons.length > 0 ? selectedCoupons[0] : null,
+        curCouponShowText
+      })
+      // 多选模式下不立即触发 processYunfei，等确认按钮再触发
+    } else {
+      // 单选模式
+      const coupons = this.data.coupons
+      coupons.forEach(c => { c.checked = false })
+      coupons[index].checked = true
+      this.setData({
+        coupons,
+        curCoupon: selectedCoupon,
+        selectedCoupons: [selectedCoupon],
+        curCouponShowText: selectedCoupon.nameExt,
+        couponPickerShow: false
+      })
+      this.processYunfei()
+    }
+  },
+
+  // 多选模式确认选择
+  confirmCouponPicker() {
     this.setData({
-      curCoupon: selectedCoupon,
-      curCouponShowText: selectedCoupon.nameExt,
       couponPickerShow: false
     })
     this.processYunfei()
@@ -1028,8 +1113,12 @@ Page({
   
   // 选择不使用优惠券
   selectNoCoupon() {
+    const coupons = this.data.coupons
+    coupons.forEach(c => { c.checked = false })
     this.setData({
+      coupons,
       curCoupon: null,
+      selectedCoupons: [],
       curCouponShowText: '请选择使用优惠券',
       couponPickerShow: false
     })
@@ -1041,10 +1130,16 @@ Page({
     const shopIndex = e.currentTarget.dataset.sidx
     const shopList = this.data.shopList
     const currentShop = shopList[shopIndex]
+    const currentShopCoupons = (currentShop.coupons || []).slice()
+    const shopSelectedCoupons = currentShop.selectedCoupons || []
+    // 同步 checked 状态
+    currentShopCoupons.forEach(c => {
+      c.checked = shopSelectedCoupons.some(s => s.id == c.id)
+    })
     
     this.setData({
       currentShopIndex: shopIndex,
-      currentShopCoupons: currentShop.coupons || [],
+      currentShopCoupons,
       currentShopSelectedCoupon: currentShop.curCoupon || null,
       couponPickerShopShow: true
     })
@@ -1065,12 +1160,49 @@ Page({
     const shopList = this.data.shopList
     const curshop = shopList[shopIndex]
     
-    curshop.curCoupon = selectedCoupon
-    curshop.curCouponShowText = selectedCoupon.nameExt
-    shopList.splice(shopIndex, 1, curshop)
-    
+    if (this.data.couponUseMultiple) {
+      // 多选模式：只更新选中状态，不触发计算
+      let shopSelectedCoupons = curshop.selectedCoupons || []
+      shopSelectedCoupons = shopSelectedCoupons.slice()
+      const currentShopCoupons = this.data.currentShopCoupons
+      const existIndex = shopSelectedCoupons.findIndex(c => c.id == selectedCoupon.id)
+      if (existIndex > -1) {
+        shopSelectedCoupons.splice(existIndex, 1)
+        currentShopCoupons[index].checked = false
+      } else {
+        shopSelectedCoupons.push(selectedCoupon)
+        currentShopCoupons[index].checked = true
+      }
+      curshop.selectedCoupons = shopSelectedCoupons
+      curshop.coupons = currentShopCoupons
+      curshop.curCoupon = shopSelectedCoupons.length > 0 ? shopSelectedCoupons[0] : null
+      curshop.curCouponShowText = shopSelectedCoupons.length > 0
+        ? '已选择' + shopSelectedCoupons.length + '张优惠券'
+        : '请选择使用优惠券'
+      shopList.splice(shopIndex, 1, curshop)
+      this.setData({
+        shopList,
+        currentShopCoupons,
+        currentShopSelectedCoupon: curshop.curCoupon
+      })
+      // 多选模式下不立即触发 processYunfei，等确认按钮再触发
+    } else {
+      // 单选模式
+      curshop.curCoupon = selectedCoupon
+      curshop.selectedCoupons = [selectedCoupon]
+      curshop.curCouponShowText = selectedCoupon.nameExt
+      shopList.splice(shopIndex, 1, curshop)
+      this.setData({
+        shopList,
+        couponPickerShopShow: false
+      })
+      this.processYunfei()
+    }
+  },
+
+  // 多选模式门店优惠券确认选择
+  confirmCouponPickerShop() {
     this.setData({
-      shopList,
       couponPickerShopShow: false
     })
     this.processYunfei()
@@ -1081,13 +1213,19 @@ Page({
     const shopIndex = this.data.currentShopIndex
     const shopList = this.data.shopList
     const curshop = shopList[shopIndex]
+    const currentShopCoupons = this.data.currentShopCoupons
+    currentShopCoupons.forEach(c => { c.checked = false })
     
     curshop.curCoupon = null
+    curshop.selectedCoupons = []
+    curshop.coupons = currentShopCoupons
     curshop.curCouponShowText = '请选择使用优惠券'
     shopList.splice(shopIndex, 1, curshop)
     
     this.setData({
       shopList,
+      currentShopCoupons,
+      currentShopSelectedCoupon: null,
       couponPickerShopShow: false
     })
     this.processYunfei()

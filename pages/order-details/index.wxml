@@ -243,6 +243,38 @@
     </view>
   </view>
 
+  <!-- 优惠明细 -->
+  <view wx:if="{{ orderDetail.coupons && orderDetail.coupons.length > 0 }}" class="card-section coupon-detail-section">
+    <view class="coupon-detail-header" bindtap="toggleCouponDetail">
+      <view class="card-title">
+        <view class="title-line"></view>
+        <text>优惠明细</text>
+      </view>
+      <view class="coupon-detail-toggle">
+        <text class="coupon-detail-summary">已优惠 ¥{{orderDetail.orderInfo.amountCoupons}}</text>
+        <van-icon name="{{ couponDetailExpanded ? 'arrow-up' : 'arrow-down' }}" size="14px" color="#999" />
+      </view>
+    </view>
+    <view wx:if="{{ couponDetailExpanded }}" class="coupon-detail-list">
+      <view class="coupon-detail-item" wx:for="{{ orderDetail.coupons }}" wx:key="id">
+        <view class="coupon-detail-left">
+          <view class="coupon-detail-tag">券</view>
+          <view class="coupon-detail-info">
+            <view class="coupon-detail-name">{{ item.name }}</view>
+            <view class="coupon-detail-desc">
+              <text wx:if="{{ item.moneyHreshold > 0 }}">满{{ item.moneyHreshold }}元可用</text>
+              <text wx:else>无门槛</text>
+              <text class="coupon-detail-source">· {{ item.source }}</text>
+            </view>
+          </view>
+        </view>
+        <view class="coupon-detail-right">
+          <view class="coupon-detail-money">-¥{{ item.money }}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <!-- 订单记录 -->
   <view wx:if="{{ orderDetail.logs && orderDetail.logs.length > 0 }}" class="card-section">
     <view class="card-title">

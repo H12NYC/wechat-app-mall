@@ -20,16 +20,32 @@
         </view>
     </view>
 
-    <!-- 物流轨迹时间轴 -->
-    <view class="timeline-container">
+    <!-- 包裹内商品信息 -->
+    <view wx:if="{{ packageGoods && packageGoods.length > 0 }}" class="package-goods-container">
+        <view class="package-goods-header">
+            <view class="package-goods-title">包裹商品</view>
+            <view class="package-goods-count">共{{ packageGoods.length }}件商品</view>
+        </view>
+        <view class="package-goods-list">
+            <view class="package-goods-item" wx:for="{{ packageGoods }}" wx:key="index">
+                <image class="goods-thumb" src="{{ item.pic }}" mode="aspectFill"></image>
+                <view class="goods-info">
+                    <view class="goods-name">{{ item.goodsName }}</view>
+                    <view class="goods-property" wx:if="{{ item.property }}">{{ item.property }}</view>
+                    <view class="goods-number">x{{ item.number }}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <!-- 物流轨迹时间轴（有轨迹数据时才展示） -->
+    <view wx:if="{{ logisticsTraces && logisticsTraces.length > 0 }}" class="timeline-container">
         <view class="timeline-header">
             <view class="timeline-title">物流轨迹</view>
             <view class="timeline-subtitle">Package Tracking</view>
         </view>
 
-        <van-empty wx:if="{{ !logisticsTraces || logisticsTraces.length == 0 }}" description="暂无物流信息" />
-
-        <view class="timeline-content" wx:if="{{ logisticsTraces && logisticsTraces.length > 0 }}">
+        <view class="timeline-content">
             <view class="timeline-item {{index === 0 ? 'timeline-item-active' : ''}}" wx:for="{{logisticsTraces}}" wx:key="index">
                 <!-- 时间轴节点 -->
                 <view class="timeline-node">

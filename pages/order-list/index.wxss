@@ -370,6 +370,17 @@
   border-color: #c7302f;
 }
 
+.btn-rebuy {
+  background: #ffffff;
+  color: #ff6600;
+  border: 1px solid #ff6600;
+}
+
+.btn-rebuy:active {
+  background: #fff5eb;
+  border-color: #e55d00;
+}
+
 /* 底部安全区域 */
 .safeAreaOldMarginBttom,
 .safeAreaNewMarginBttom {

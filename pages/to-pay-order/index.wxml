@@ -343,12 +343,13 @@
 <van-popup show="{{ couponPickerShow }}" position="bottom" round bind:close="closeCouponPicker">
   <view class="coupon-picker-container">
     <view class="coupon-picker-header">
-      <view class="picker-title">选择优惠券</view>
-      <view class="picker-close" bindtap="closeCouponPicker">✕</view>
+      <view class="picker-title">选择优惠券{{ couponUseMultiple ? '（可多选）' : '' }}</view>
+      <view class="picker-close" wx:if="{{ !couponUseMultiple }}" bindtap="closeCouponPicker">✕</view>
+      <view class="picker-confirm-btn" wx:if="{{ couponUseMultiple }}" bindtap="confirmCouponPicker">确定</view>
     </view>
     <scroll-view class="coupon-picker-list" scroll-y>
       <view class="coupon-picker-item" wx:for="{{coupons}}" wx:key="id" bindtap="selectCoupon" data-index="{{index}}">
-        <view class="picker-coupon-card {{ curCoupon && curCoupon.id == item.id ? 'selected' : '' }}">
+        <view class="picker-coupon-card {{ item.checked ? 'selected' : '' }}">
           <view class="picker-coupon-left">
             <view class="picker-amount-wrapper">
               <text class="picker-currency" wx:if="{{ item.moneyType == 0 }}">¥</text>
@@ -361,13 +362,13 @@
             <view class="picker-coupon-name">{{item.name}}</view>
             <view class="picker-coupon-desc">{{item.nameExt}}</view>
           </view>
-          <view class="picker-check-icon" wx:if="{{ curCoupon && curCoupon.id == item.id }}">✓</view>
+          <view class="picker-check-icon" wx:if="{{ item.checked }}">✓</view>
         </view>
       </view>
       <view class="coupon-picker-item" bindtap="selectNoCoupon">
-        <view class="picker-coupon-card no-coupon {{ !curCoupon ? 'selected' : '' }}">
+        <view class="picker-coupon-card no-coupon {{ !curCoupon && selectedCoupons.length == 0 ? 'selected' : '' }}">
           <view class="no-coupon-text">不使用优惠券</view>
-          <view class="picker-check-icon" wx:if="{{ !curCoupon }}">✓</view>
+          <view class="picker-check-icon" wx:if="{{ !curCoupon && selectedCoupons.length == 0 }}">✓</view>
         </view>
       </view>
     </scroll-view>
@@ -378,12 +379,28 @@
 <van-popup show="{{ couponPickerShopShow }}" position="bottom" round bind:close="closeCouponPickerShop">
   <view class="coupon-picker-container">
     <view class="coupon-picker-header">
-      <view class="picker-title">选择优惠券</view>
-      <view class="picker-close" bindtap="closeCouponPickerShop">✕</view>
+      <view class="picker-title">选择优惠券{{ couponUseMultiple ? '（可多选）' : '' }}</view>
+      <view class="picker-close" wx:if="{{ !couponUseMultiple }}" bindtap="closeCouponPickerShop">✕</view>
+      <view class="picker-confirm-btn" wx:if="{{ couponUseMultiple }}" bindtap="confirmCouponPickerShop">确定</view>
     </view>
     <scroll-view class="coupon-picker-list" scroll-y>
       <view class="coupon-picker-item" wx:for="{{currentShopCoupons}}" wx:key="id" bindtap="selectCouponShop" data-index="{{index}}">
-        <view class="picker-coupon-card {{ currentShopSelectedCoupon && currentShopSelectedCoupon.id == item.id ? 'selected' : '' }}">
+        <view class="picker-coupon-card {{ item.checked ? 'selected' : '' }}" wx:if="{{ couponUseMultiple }}">
+          <view class="picker-coupon-left">
+            <view class="picker-amount-wrapper">
+              <text class="picker-currency" wx:if="{{ item.moneyType == 0 }}">¥</text>
+              <text class="picker-amount">{{ item.moneyType == 0 ? item.money : item.money }}</text>
+              <text class="picker-percent" wx:if="{{ item.moneyType == 1 }}">折</text>
+            </view>
+            <view class="picker-threshold">满{{item.moneyHreshold}}元</view>
+          </view>
+          <view class="picker-coupon-right">
+            <view class="picker-coupon-name">{{item.name}}</view>
+            <view class="picker-coupon-desc">{{item.nameExt}}</view>
+          </view>
+          <view class="picker-check-icon" wx:if="{{ item.checked }}">✓</view>
+        </view>
+        <view class="picker-coupon-card {{ currentShopSelectedCoupon && currentShopSelectedCoupon.id == item.id ? 'selected' : '' }}" wx:if="{{ !couponUseMultiple }}">
           <view class="picker-coupon-left">
             <view class="picker-amount-wrapper">
               <text class="picker-currency" wx:if="{{ item.moneyType == 0 }}">¥</text>

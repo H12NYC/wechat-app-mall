@@ -262,6 +262,20 @@ Page({
     const res = await WXAPI.orderList(postData)
     wx.hideLoading()
     if (res.code == 0) {
+      // 处理部分发货状态：待发货订单中，如果有商品的未发货数量 < 购买数量，说明已部分发货
+      if (res.data.orderList && res.data.goodsMap) {
+        res.data.orderList.forEach(order => {
+          if (order.status === 1) {
+            const goods = res.data.goodsMap[order.id]
+            if (goods && goods.length > 0) {
+              const hasPartialShip = goods.some(g => g.numberNoFahuo < g.number)
+              if (hasPartialShip) {
+                order.statusStr = '部分发货'
+              }
+            }
+          }
+        })
+      }
       if (this.data.page == 1) {
         this.setData({
           orderList: res.data.orderList,
@@ -324,5 +338,71 @@ Page({
         wx.showToast({ title: '客服暂不可用', icon: 'none' })
       }
     })
+  },
+  async rebuyOrder(e) {
+    const orderId = e.currentTarget.dataset.id
+    const goodsList = this.data.goodsMap[orderId]
+    if (!goodsList || goodsList.length === 0) {
+      wx.showToast({ title: '该订单没有商品信息', icon: 'none' })
+      return
+    }
+    const token = wx.getStorageSync('token')
+    if (!token) {
+      wx.showToast({ title: '请先登录', icon: 'none' })
+      return
+    }
+    wx.showLoading({ title: '正在加入购物车...' })
+    try {
+      // 1. 清空购物车
+      await WXAPI.shippingCarInfoRemoveAll(token)
+      // 2. 按照订单商品逐个加入购物车
+      for (let i = 0; i < goodsList.length; i++) {
+        const goods = goodsList[i]
+        // 解析SKU：propertyChildIds格式为 "870:1582,30899:320215," 转成 [{optionId, optionValueId}]
+        const sku = []
+        if (goods.propertyChildIds) {
+          const pairs = goods.propertyChildIds.split(',').filter(s => s.trim() !== '')
+          pairs.forEach(pair => {
+            const parts = pair.trim().split(':')
+            if (parts.length === 2 && parts[0] && parts[1]) {
+              sku.push({
+                optionId: parts[0],
+                optionValueId: parts[1]
+              })
+            }
+          })
+        }
+        // 解析附加项：additionItems是JSON字符串，取出 [{id, pid}]
+        const addition = []
+        if (goods.additionItems) {
+          try {
+            const items = JSON.parse(goods.additionItems)
+            items.forEach(item => {
+              addition.push({
+                id: item.id,
+                pid: item.pid
+              })
+            })
+          } catch (e) {
+            console.warn('解析additionItems失败', e)
+          }
+        }
+        const res = await WXAPI.shippingCarInfoAddItem(token, goods.goodsId, goods.number, sku, addition)
+        if (res.code !== 0) {
+          wx.hideLoading()
+          wx.showToast({ title: '商品"' + goods.goodsName + '"加入失败: ' + res.msg, icon: 'none' })
+          return
+        }
+      }
+      wx.hideLoading()
+      // 3. 跳转到确认订单页面
+      wx.navigateTo({
+        url: '/pages/to-pay-order/index'
+      })
+    } catch (err) {
+      wx.hideLoading()
+      console.error('一键复购失败', err)
+      wx.showToast({ title: '操作失败，请重试', icon: 'none' })
+    }
   },
 })
