@@ -339,7 +339,7 @@
       send-message-title="{{goodsDetail.basicInfo.name}}" send-message-img="{{goodsDetail.basicInfo.pic}}"
       send-message-path="/pages/goods-details/index?id={{goodsDetail.basicInfo.id}}" show-message-card="{{ true }}" />
     <van-goods-action-icon icon="cart-o" text="购物车" bind:click="goShopCar" info="{{ shopNum ? shopNum : '' }}" />
-    <van-goods-action-icon icon="{{faved?'like':'like-o'}}" text="收藏" bind:click="addFav" />
+    <van-goods-action-icon icon="{{faved?'like':'like-o'}}" color="{{faved?'#E4393C':''}}" text="收藏" bind:click="addFav" />
     <van-goods-action-button wx:if="{{!goodsDetail.basicInfo.pingtuan}}" text="加入购物车" type="warning"
       bind:click="{{goodsDetailSkuShowType==0?'toAddShopCar':'addShopCar'}}" />
     <van-goods-action-button wx:if="{{!goodsDetail.basicInfo.pingtuan}}" text="立即购买" data-shopType="{{shopType}}"
@@ -356,7 +356,7 @@
       send-message-title="{{goodsDetail.basicInfo.name}}" send-message-img="{{goodsDetail.basicInfo.pic}}"
       send-message-path="/pages/goods-details/index?id={{goodsDetail.basicInfo.id}}" show-message-card="{{ true }}" />
     <van-goods-action-icon icon="cart-o" text="购物车" bind:click="goShopCar" info="{{ shopNum ? shopNum : '' }}" />
-    <van-goods-action-icon icon="{{faved?'like':'like-o'}}" text="收藏" bind:click="addFav" />
+    <van-goods-action-icon icon="{{faved?'like':'like-o'}}" color="{{faved?'#E4393C':''}}" text="收藏" bind:click="addFav" />
     <van-goods-action-button text="缺货，订阅到货通知 🔔" color="#ff9800" bind:click="subscribeOutOfStock" />
   </van-goods-action>
 </view>

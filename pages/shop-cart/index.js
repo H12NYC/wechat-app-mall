@@ -183,13 +183,18 @@ Page({
   },
   changeCarNumber(e) {
     const key = e.currentTarget.dataset.key
-    const num = e.detail.value
-    const token = wx.getStorageSync('token')
-    if(this.data.shopCarType == 0){
-    WXAPI.shippingCarInfoModifyNumber(token, key, num).then(res => {
+    const num = parseInt(e.detail.value, 10)
+    // 输入为空或非正整数时，不提交，刷新恢复原值
+    if (!e.detail.value || isNaN(num) || num <= 0) {
       this.shippingCarInfo()
-    })}
-    else if(this.data.shopCarType == 1){
+      return
+    }
+    const token = wx.getStorageSync('token')
+    if (this.data.shopCarType == 0) {
+      WXAPI.shippingCarInfoModifyNumber(token, key, num).then(res => {
+        this.shippingCarInfo()
+      })
+    } else if (this.data.shopCarType == 1) {
       WXAPI.jdvopCartModifyNumberV2(token, key, num).then(res => {
         this.shippingCarInfo()
       })

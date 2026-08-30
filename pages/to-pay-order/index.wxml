@@ -164,11 +164,16 @@
           bind:change="extRequiredChange"
         />
       </block>
-      <view wx:if="{{shopCarType == 0}}" class="row-box">
-        <view class="row-label">备注</view>
-        <view class="right-text">
-          <input bindinput="remarkChange" type="text" class="liuyan" placeholder="如需备注请输入" />
-        </view>
+      <view wx:if="{{shopCarType == 0}}" class="remark-box">
+        <view class="remark-label">备注</view>
+        <textarea
+          class="remark-textarea"
+          bindinput="remarkChange"
+          placeholder="如需备注请输入"
+          placeholder-class="remark-placeholder"
+          maxlength="200"
+          auto-height
+        />
       </view>
       <van-cell wx:if="{{ orderPeriod_open == 1 }}" title="订阅">
         <view slot="">

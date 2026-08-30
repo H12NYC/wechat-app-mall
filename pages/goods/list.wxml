@@ -13,7 +13,9 @@
     <view class="item {{orderBy=='priceUp'?'active':''}}" data-val="priceUp" bindtap="filter">价格</view>
   </view>
 </van-sticky>
+
 <van-empty wx:if="{{ !goods || goods.length == 0 }}" description="暂无商品" />
+
 <wxs module="goodsDetailPage">
 module.exports = {
   url : function(item) {
@@ -31,19 +33,23 @@ module.exports = {
   }
 }
 </wxs>
+
+<!-- ========== 列表模式1：横向卡片 ========== -->
 <block wx:if="{{listType == 1}}">
   <view class="list1" wx:for="{{goods}}" wx:key="id">
-    <navigator url="{{ goodsDetailPage.url(item) }}"><image class="img" mode="aspectFill" src="{{item.pic}}"></image></navigator>
+    <navigator url="{{ goodsDetailPage.url(item) }}">
+      <image class="img" mode="aspectFill" src="{{item.pic}}"></image>
+    </navigator>
     <view class="goods-info">
-      <view class="title ellipsis"><navigator url="{{ goodsDetailPage.url(item) }}">{{item.name}}</navigator></view>
+      <view class="title ellipsis">
+        <navigator url="{{ goodsDetailPage.url(item) }}">{{item.name}}</navigator>
+      </view>
       <view wx:if="{{item.characteristic}}" class="characteristic van-multi-ellipsis--l2" style="padding:0;-webkit-line-clamp: 1;">{{item.characteristic}}</view>
       <view class="price">
-        <!-- 情况4：售价=0 且 积分=0 → 免费 -->
         <block wx:if="{{(!item.minPrice || item.minPrice <= 0) && (!item.minScore || item.minScore <= 0)}}">
           <view class="gl-price-free-badge">免费</view>
           <text wx:if="{{item.originalPrice && item.originalPrice > 0}}" class="originalPrice">¥ {{item.originalPrice}}</text>
         </block>
-        <!-- 情况2：售价=0，积分≠0 -->
         <block wx:elif="{{(!item.minPrice || item.minPrice <= 0) && item.minScore > 0}}">
           <view class="gl-price-score-wrap">
             <text class="gl-price-score-num">{{item.minScore}}</text>
@@ -51,7 +57,6 @@ module.exports = {
           </view>
           <text wx:if="{{item.originalPrice && item.originalPrice > 0}}" class="originalPrice">¥ {{item.originalPrice}}</text>
         </block>
-        <!-- 情况3：售价≠0 且 积分≠0 -->
         <block wx:elif="{{item.minPrice > 0 && item.minScore > 0}}">
           <view class="gl-price-combo-wrap">
             <view class="gl-price-money-wrap">
@@ -66,7 +71,6 @@ module.exports = {
           </view>
           <text wx:if="{{item.originalPrice && item.originalPrice > 0}}" class="originalPrice">¥ {{item.originalPrice}}</text>
         </block>
-        <!-- 情况1：售价≠0，积分=0（默认） -->
         <block wx:else>
           <view class="gl-price-money-wrap">
             <text class="gl-price-symbol">¥</text>
@@ -77,25 +81,34 @@ module.exports = {
       </view>
       <view wx:if="{{ item.supplyType != 'vop_jd' }}" class="buy-info">
         <view wx:if="{{ show_seller_number == '1' }}" class="num">已售出{{item.numberSells}}件</view>
-        <van-icon wx:if="{{ item.propertyIds || item.hasAddition }}" class="car" name="add" color="#e64340" size="48rpx" data-id="{{item.id}}" bind:click="addShopCar" />
-        <van-icon wx:else class="car" name="shopping-cart-o" color="#e64340" size="48rpx" data-id="{{item.id}}" bind:click="addShopCar" />
+        <!-- 购物车按钮 + 数量红点 -->
+        <view class="car" data-id="{{item.id}}" bindtap="addShopCar">
+          <image class="car-icon" src="/images/icon/car.svg"></image>
+          <view wx:if="{{item.cartNum && item.cartNum > 0}}" class="car-badge">
+            {{item.cartNum > 99 ? '99+' : item.cartNum}}
+          </view>
+        </view>
       </view>
     </view>
   </view>
 </block>
+
+<!-- ========== 列表模式2：网格布局 ========== -->
 <view wx:if="{{listType == 2}}" class="list2-box">
   <view class="list2" wx:for="{{goods}}" wx:key="id">
-    <navigator url="{{ goodsDetailPage.url(item) }}"><image class="img" mode="aspectFill" src="{{item.pic}}"></image></navigator>
+    <navigator url="{{ goodsDetailPage.url(item) }}">
+      <image class="img" mode="aspectFill" src="{{item.pic}}"></image>
+    </navigator>
     <view class="goods-info">
-      <view class="title van-multi-ellipsis--l2"><navigator url="{{ goodsDetailPage.url(item) }}">{{item.name}}</navigator></view>
+      <view class="title van-multi-ellipsis--l2">
+        <navigator url="{{ goodsDetailPage.url(item) }}">{{item.name}}</navigator>
+      </view>
       <view wx:if="{{item.characteristic}}" class="characteristic van-multi-ellipsis--l2" style="padding:0;-webkit-line-clamp: 1;">{{item.characteristic}}</view>
       <view class="price">
-        <!-- 情况4：售价=0 且 积分=0 → 免费 -->
         <block wx:if="{{(!item.minPrice || item.minPrice <= 0) && (!item.minScore || item.minScore <= 0)}}">
           <view class="gl-price-free-badge">免费</view>
           <text wx:if="{{item.originalPrice && item.originalPrice > 0}}" class="originalPrice">¥ {{item.originalPrice}}</text>
         </block>
-        <!-- 情况2：售价=0，积分≠0 -->
         <block wx:elif="{{(!item.minPrice || item.minPrice <= 0) && item.minScore > 0}}">
           <view class="gl-price-score-wrap">
             <text class="gl-price-score-num">{{item.minScore}}</text>
@@ -103,7 +116,6 @@ module.exports = {
           </view>
           <text wx:if="{{item.originalPrice && item.originalPrice > 0}}" class="originalPrice">¥ {{item.originalPrice}}</text>
         </block>
-        <!-- 情况3：售价≠0 且 积分≠0 -->
         <block wx:elif="{{item.minPrice > 0 && item.minScore > 0}}">
           <view class="gl-price-combo-wrap">
             <view class="gl-price-money-wrap">
@@ -118,7 +130,6 @@ module.exports = {
           </view>
           <text wx:if="{{item.originalPrice && item.originalPrice > 0}}" class="originalPrice">¥ {{item.originalPrice}}</text>
         </block>
-        <!-- 情况1：售价≠0，积分=0（默认） -->
         <block wx:else>
           <view class="gl-price-money-wrap">
             <text class="gl-price-symbol">¥</text>
@@ -129,11 +140,25 @@ module.exports = {
       </view>
       <view wx:if="{{ item.supplyType != 'vop_jd' }}" class="buy-info">
         <view wx:if="{{ show_seller_number == '1' }}" class="num">{{item.numberOrders}}人已购{{item.numberSells}}件</view>
-        <van-icon wx:if="{{ item.propertyIds || item.hasAddition }}" class="car" name="add" color="#e64340" size="48rpx" data-id="{{item.id}}" bind:click="addShopCar" />
-        <van-icon wx:else class="car" name="shopping-cart-o" color="#e64340" size="48rpx" data-id="{{item.id}}" bind:click="addShopCar" />
+        <!-- 购物车按钮 + 数量红点 -->
+        <view class="car" data-id="{{item.id}}" bindtap="addShopCar">
+          <image class="car-icon" src="/images/icon/car.svg"></image>
+          <view wx:if="{{item.cartNum && item.cartNum > 0}}" class="car-badge">
+            {{item.cartNum > 99 ? '99+' : item.cartNum}}
+          </view>
+        </view>
       </view>
     </view>
   </view>
 </view>
 
-<goods-pop skuCurGoodsBaseInfo="{{ skuCurGoods }}" />
+<!-- 右下角浮动购物车 -->
+<view class="float-cart" bindtap="goToCart">
+  <image class="float-cart-icon" src="/images/icon/car.svg"></image>
+  <view wx:if="{{totalCartNum && totalCartNum > 0}}" class="float-cart-badge">
+    {{totalCartNum > 99 ? '99+' : totalCartNum}}
+  </view>
+</view>
+
+<!-- SKU 选择弹窗 -->
+<goods-pop skuCurGoodsBaseInfo="{{ skuCurGoods }}" bind:addCartSuccess="onAddCartSuccess" />

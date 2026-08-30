@@ -32,7 +32,7 @@
               <view class="goods-price">¥ {{item.price}}</view>
               <view class="buy-num">
                 <view class="jian-btn" catchtap="jianBtnTap" data-index="{{index}}">-</view>
-                <input type="number" value="{{item.number}}" data-key="{{item.key}}" bindinput="changeCarNumber" />
+                <input type="number" value="{{item.number}}" data-key="{{item.key}}" bindblur="changeCarNumber" />
                 <view class="jia-btn {{item.number==curTouchGoodStore? 'disabled' : ''}}" catchtap="jiaBtnTap"
                   data-index="{{index}}">+</view>
               </view>
@@ -73,7 +73,7 @@
             <view class="goods-price">¥ {{item.price}}</view>
             <view class="buy-num">
               <view class="jian-btn" catchtap="jianBtnTap" data-index="{{index}}">-</view>
-              <input type="number" value="{{item.number}}" data-key="{{item.key}}" bindinput="changeCarNumber" />
+              <input type="number" value="{{item.number}}" data-key="{{item.key}}" bindblur="changeCarNumber" />
               <view class="jia-btn {{item.number==curTouchGoodStore? 'disabled' : ''}}" catchtap="jiaBtnTap"
                 data-index="{{index}}">+</view>
             </view>

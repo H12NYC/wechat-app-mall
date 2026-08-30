@@ -374,13 +374,13 @@ module.exports = {
     return request('/pay/wx/requestMerchantTransfer', true, 'get', data);
   },
   wxpayFOMO: function wxpayFOMO(data) {
-    return request('/pay/fomo/wxapp', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/fomo/wxapp', false, 'post', data);
   },
   payNow: function payNow(data) {
-    return request('/pay/fomo/payNow', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/fomo/payNow', false, 'post', data);
   },
   fomoCheckout: function fomoCheckout(data) {
-    return request('/pay/fomo/checkout', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/pay/fomo/checkout', false, 'post', data);
   },
   wxpayFWS: function wxpayFWS(data) {
     return request('/pay/wxfws/wxapp', true, 'post', data);
@@ -485,12 +485,12 @@ module.exports = {
     return request('/user/wxapp/getMobile', true, 'get', { code: code });
   },
   login_username: function login_username(data) {
-    return request('/user/username/login', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/user/username/login', false, 'post', data);
   },
   bindUsername: function bindUsername(token, username) {
     var pwd = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
 
-    return request('/user/username/bindUsername', true, 'post', {
+    return request(COMMON_BASE_URL + subDomain + '/user/username/bindUsername', false, 'post', {
       token: token, username: username, pwd: pwd
     });
   },
@@ -546,7 +546,7 @@ module.exports = {
     return request(COMMON_BASE_URL + subDomain + '/user/tt/miniapp/authorize', false, 'post', data);
   },
   register_username: function register_username(data) {
-    return request('/user/username/register', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/user/username/register', false, 'post', data);
   },
   register_mobile: function register_mobile(data) {
     return request('/user/m/register', true, 'post', data);
@@ -1612,7 +1612,7 @@ module.exports = {
     return request('/user/modify/password', true, 'post', { token: token, pwdOld: pwdOld, pwdNew: pwdNew });
   },
   modifyUserPasswordByUserName: function modifyUserPasswordByUserName(data) {
-    return request('/user/username/modifyPassword', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/user/username/modifyPassword', false, 'post', data);
   },
   anonymousUserInfo: function anonymousUserInfo(id) {
     return request('/user/anonymous/info', true, 'get', { id: id });
@@ -2676,19 +2676,19 @@ module.exports = {
   },
   // 收藏卡片
   collectCardHis: function collectCardHis(data) {
-    return request('/collectCard/del', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/collectCard/del', false, 'post', data);
   },
   collectCardInfo: function collectCardInfo(number) {
-    return request('/collectCard/cardInfo', true, 'get', { number: number });
+    return request(COMMON_BASE_URL + subDomain + '/collectCard/cardInfo', false, 'get', { number: number });
   },
   collectCardHisInfo: function collectCardHisInfo(token, id) {
-    return request('/collectCard/hisInfo', true, 'get', { token: token, id: id });
+    return request(COMMON_BASE_URL + subDomain + '/collectCard/hisInfo', false, 'get', { token: token, id: id });
   },
   collectCardBind: function collectCardBind(data) {
-    return request('/collectCard/bind', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/collectCard/bind', false, 'post', data);
   },
   collectCardUnBind: function collectCardUnBind(token, id, smsCode) {
-    return request('/collectCard/bind', true, 'post', { token: token, id: id, smsCode: smsCode });
+    return request(COMMON_BASE_URL + subDomain + '/collectCard/unbind', false, 'post', { token: token, id: id, smsCode: smsCode });
   },
   // 其他
   bengenSaleTongjiList: function bengenSaleTongjiList(data) {
@@ -2758,22 +2758,22 @@ module.exports = {
   },
   // 橱窗
   chuchuanSettingInfo: function chuchuanSettingInfo(uid) {
-    return request('/chuchuan/info', true, 'get', { uid: uid });
+    return request(COMMON_BASE_URL + subDomain + '/chuchuan/info', false, 'get', { uid: uid });
   },
   chuchuanSettingModify: function chuchuanSettingModify(data) {
-    return request('/chuchuan/modify', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/chuchuan/modify', false, 'post', data);
   },
   chuchuanGoodsList: function chuchuanGoodsList(data) {
-    return request('/chuchuanGoods/list', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/chuchuanGoods/list', false, 'post', data);
   },
   chuchuanGoodsAdd: function chuchuanGoodsAdd(data) {
-    return request('/chuchuanGoods/add', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/chuchuanGoods/add', false, 'post', data);
   },
   chuchuanGoodsRemove: function chuchuanGoodsRemove(token, goodsId) {
-    return request('/chuchuanGoods/remove', true, 'post', { token: token, goodsId: goodsId });
+    return request(COMMON_BASE_URL + subDomain + '/chuchuanGoods/remove', false, 'post', { token: token, goodsId: goodsId });
   },
   chuchuanGoodsCheck: function chuchuanGoodsCheck(token, goodsId) {
-    return request('/chuchuanGoods/check', true, 'get', { token: token, goodsId: goodsId });
+    return request(COMMON_BASE_URL + subDomain + '/chuchuanGoods/check', false, 'get', { token: token, goodsId: goodsId });
   },
   // 寄存
   jicunGoodsList: function jicunGoodsList(data) {
@@ -3087,7 +3087,7 @@ module.exports = {
     return request('/shop/goods/yudingStatistics', true, 'get', { day: day });
   },
   contactList: function contactList() {
-    return request('/contact/list', true, 'get');
+    return request(COMMON_BASE_URL + subDomain + '/contact/list', false, 'get');
   },
   distributedLock: function distributedLock(key, seconds) {
     return request('/distributedLock/lock', true, 'get', { key: key, seconds: seconds });
@@ -3096,16 +3096,16 @@ module.exports = {
     return request('/distributedLock/lock', true, 'get', { key: key });
   },
   communitySetting: function communitySetting() {
-    return request('/community/setting', true, 'get');
+    return request(COMMON_BASE_URL + subDomain + '/community/setting', false, 'get');
   },
   communityLeaderApply: function communityLeaderApply(data) {
-    return request('/communityLeader/apply', true, 'post', data);
+    return request(COMMON_BASE_URL + subDomain + '/communityLeader/apply', false, 'post', data);
   },
   communityLeaderApplyInfo: function communityLeaderApplyInfo(token) {
-    return request('/communityLeader/apply/info', true, 'get', { token: token });
+    return request(COMMON_BASE_URL + subDomain + '/communityLeader/apply/info', false, 'get', { token: token });
   },
   communityLeaderBuy: function communityLeaderBuy(token) {
-    return request('/communityLeader/buy', true, 'post', { token: token });
+    return request(COMMON_BASE_URL + subDomain + '/communityLeader/buy', false, 'post', { token: token });
   },
   communityOrderFahuo: function communityOrderFahuo(data) {
     return request('/communityOrder/fahuo', true, 'post', data);
@@ -3636,6 +3636,12 @@ module.exports = {
   },
   dabGetPrice: function dabGetPrice(data) {
     return request(COMMON_BASE_URL + subDomain + '/dab/getPrice', false, 'get', data);
+  },
+  yaduoBasicLogin: function yaduoBasicLogin(data) {
+    return request(COMMON_BASE_URL + subDomain + '/yaduo/basicLogin', false, 'get', data);
+  },
+  yaduoUnbind: function yaduoUnbind(data) {
+    return request(COMMON_BASE_URL + subDomain + '/yaduo/unbind', false, 'post', data);
   }
 };
 

@@ -334,6 +334,8 @@ Component({
         this.setData({
           skuCurGoodsShow: false
         })
+        // 通知父页面刷新购物车数量
+        this.triggerEvent('addCartSuccess')
       } else {
         wx.showToast({
           title: res.msg,

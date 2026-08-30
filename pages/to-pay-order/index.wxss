@@ -824,3 +824,34 @@ form {
   color: #ee0a24 !important;
   font-size: 24rpx;
 }
+
+/* 备注输入区域 */
+.remark-box {
+  padding: 24rpx 30rpx;
+  background-color: #fff;
+  border-bottom: 1rpx solid #eee;
+}
+
+.remark-label {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.remark-textarea {
+  width: 100%;
+  min-height: 120rpx;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+  padding: 20rpx 24rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 12rpx;
+  background-color: #fafafa;
+  box-sizing: border-box;
+}
+
+.remark-placeholder {
+  color: #bbb;
+  font-size: 28rpx;
+}

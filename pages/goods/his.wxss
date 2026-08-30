@@ -9,40 +9,6 @@ page, view, image, input {
   box-sizing: border-box;
 }
 
-/* ==================== 页面头部 ==================== */
-.page-header {
-  background: #fff;
-  padding: 32rpx;
-  border-bottom: 1rpx solid #f0f0f0;
-}
-
-.header-title {
-  display: flex;
-  align-items: center;
-  color: #333;
-}
-
-.title-icon {
-  font-size: 40rpx;
-  margin-right: 12rpx;
-}
-
-.title-text {
-  font-size: 36rpx;
-  font-weight: 600;
-  letter-spacing: 1rpx;
-}
-
-.title-count {
-  margin-left: 16rpx;
-  background: #fff5f5;
-  padding: 4rpx 16rpx;
-  border-radius: 20rpx;
-  font-size: 24rpx;
-  color: #e4393c;
-  border: 1rpx solid #ffebeb;
-}
-
 /* ==================== 搜索栏 ==================== */
 .search-container {
   background: #fff;
@@ -52,7 +18,7 @@ page, view, image, input {
 /* ==================== 筛选条件 ==================== */
 .filters-wrapper {
   background: #fff;
-  padding: 16rpx 16rpx 16rpx;
+  padding: 16rpx;
   border-bottom: 1rpx solid #f0f0f0;
 }
 
@@ -75,7 +41,6 @@ page, view, image, input {
   align-items: center;
   justify-content: center;
   color: #666;
-  transition: all 0.3s ease;
 }
 
 .picker-content.active {
@@ -146,7 +111,6 @@ page, view, image, input {
   padding: 20rpx 60rpx;
   border-radius: 40rpx;
   font-size: 28rpx;
-  transition: all 0.3s ease;
 }
 
 .empty-btn:active {
@@ -155,7 +119,7 @@ page, view, image, input {
 
 /* ==================== 商品容器 ==================== */
 .goods-container {
-  padding: 20rpx 0 32rpx;
+  padding: 20rpx 0 140rpx; /* 底部留出浮动按钮空间 */
 }
 
 .list2-box {
@@ -167,17 +131,14 @@ page, view, image, input {
 
 /* ==================== 商品卡片 ==================== */
 .list2 {
-  width: 355rpx;
+  width: calc(50% - 8rpx);
   margin-bottom: 16rpx;
   background: #fff;
   border-radius: 12rpx;
   overflow: hidden;
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
-}
-
-.list2:active {
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .goods-card {
@@ -188,12 +149,15 @@ page, view, image, input {
 .img-wrapper {
   position: relative;
   width: 100%;
-  height: 355rpx;
+  padding-bottom: 100%;
   overflow: hidden;
   background: #f8f8f8;
 }
 
 .img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
 }
@@ -202,17 +166,17 @@ page, view, image, input {
   position: absolute;
   top: 12rpx;
   left: 0;
-  background: rgba(228, 57, 60, 0.9);
+  background: rgba(228, 57, 60, 0.85);
   color: #fff;
   font-size: 20rpx;
   padding: 6rpx 16rpx;
   border-radius: 0 20rpx 20rpx 0;
-  font-weight: 400;
 }
 
 /* 商品信息 */
 .goods-info {
-  padding: 16rpx;
+  padding: 16rpx 16rpx 8rpx;
+  flex: 1;
 }
 
 .title {
@@ -221,7 +185,7 @@ page, view, image, input {
   line-height: 38rpx;
   height: 76rpx;
   font-weight: 400;
-  margin-bottom: 12rpx;
+  margin-bottom: 10rpx;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -230,30 +194,11 @@ page, view, image, input {
   word-break: break-all;
 }
 
-/* 价格区域 */
 .price-section {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 12rpx;
-}
-
-.price-wrapper {
-  display: flex;
-  align-items: baseline;
-  color: #e4393c;
-}
-
-.price-symbol {
-  font-size: 22rpx;
-  font-weight: 500;
-  margin-right: 2rpx;
-}
-
-.price-value {
-  font-size: 32rpx;
-  font-weight: 600;
-  font-family: Arial, 'PingFang SC', sans-serif;
+  margin-bottom: 8rpx;
 }
 
 .sales-info {
@@ -261,16 +206,10 @@ page, view, image, input {
   color: #999;
 }
 
-/* 标签 */
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8rpx;
-}
-
-.tag {
-  display: inline-flex;
-  align-items: center;
 }
 
 .tag-text {
@@ -281,78 +220,136 @@ page, view, image, input {
   border-radius: 4rpx;
 }
 
-/* 快捷操作按钮 */
-.quick-actions {
-  padding: 0 16rpx 16rpx;
+/* ==================== 底部操作栏 ==================== */
+.card-actions {
   display: flex;
-  gap: 12rpx;
+  align-items: center;
+  padding: 10rpx 12rpx 14rpx;
+  gap: 10rpx;
+  border-top: 1rpx solid #f0f0f0;
 }
 
 .action-btn {
-  flex: 1;
-  text-align: center;
-  padding: 16rpx 0;
-  border-radius: 40rpx;
-  font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60rpx;
+  border-radius: 30rpx;
+  font-size: 24rpx;
   font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.action-btn.primary {
-  background: #e4393c;
-  color: #fff;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  position: relative;
 }
 
 .action-btn:active {
-  background: #c81623;
+  transform: scale(0.93);
+  opacity: 0.75;
 }
 
-/* ==================== 加载提示 ==================== */
-.loading-tip {
-  text-align: center;
-  padding: 40rpx 0 60rpx;
-  color: #999;
-  font-size: 24rpx;
+/* 再看看 */
+.look-btn {
+  flex: 1;
+  background: #f5f5f5;
+  color: #555;
 }
 
-.loading-tip text {
-  position: relative;
-  display: inline-block;
+/* 加入购物车 */
+.add-cart-btn {
+  width: 64rpx;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #e4393c 0%, #c81623 100%);
+  overflow: visible;
 }
 
-.loading-tip text::before,
-.loading-tip text::after {
-  content: '';
+.cart-action-icon {
+  width: 34rpx;
+  height: 34rpx;
+  filter: brightness(0) invert(1);
+}
+
+/* 加购数量徽章 */
+.action-badge {
   position: absolute;
-  top: 50%;
-  width: 60rpx;
-  height: 1rpx;
-  background: #e0e0e0;
+  top: -12rpx;
+  right: -10rpx;
+  background: #ff9500;
+  color: #ffffff;
+  font-size: 18rpx;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 30rpx;
+  height: 30rpx;
+  padding: 0 7rpx;
+  border-radius: 15rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid #ffffff;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
-.loading-tip text::before {
-  right: 100%;
-  margin-right: 20rpx;
+/* ==================== 底部加载状态 ==================== */
+.load-more {
+  text-align: center;
+  padding: 32rpx 0 16rpx;
 }
 
-.loading-tip text::after {
-  left: 100%;
-  margin-left: 20rpx;
-}
-
-/* ==================== 其他样式 ==================== */
-.ellipsis {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  word-break: break-all;
-}
-
-.originalPrice {
-  color: #aaa;
-  text-decoration: line-through;
-  margin-left: 20rpx;
+.load-more-text {
   font-size: 24rpx;
+  color: #bbb;
+  letter-spacing: 1rpx;
+}
+
+.load-more-hint {
+  color: #ccc;
+}
+
+/* ==================== 浮动购物车 ==================== */
+.float-cart {
+  position: fixed;
+  right: 36rpx;
+  bottom: 120rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #e4393c 0%, #c81623 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(228, 57, 60, 0.45);
+  z-index: 100;
+  transition: transform 0.2s ease;
+  overflow: visible;
+}
+
+.float-cart:active {
+  transform: scale(0.9);
+}
+
+.float-cart-icon {
+  width: 48rpx;
+  height: 48rpx;
+  filter: brightness(0) invert(1);
+}
+
+.float-cart-badge {
+  position: absolute;
+  top: -8rpx;
+  right: -8rpx;
+  background: #ff9500;
+  color: #ffffff;
+  font-size: 20rpx;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 36rpx;
+  height: 36rpx;
+  padding: 0 8rpx;
+  border-radius: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3rpx solid #ffffff;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.2);
+  z-index: 101;
 }

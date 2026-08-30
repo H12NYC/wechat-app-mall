@@ -186,11 +186,14 @@ page, view, image, input {
   align-items: center;
   justify-content: center;
   box-shadow: 0 4rpx 12rpx rgba(228, 57, 60, 0.3);
+  overflow: visible; /* 红点需要溢出 */
 }
 
-/* 购物车图标设置为白色 */
-.list1 .goods-info .buy-info .car .van-icon {
-  color: #FFFFFF !important;
+/* 购物车图标 */
+.list1 .goods-info .buy-info .car .car-icon {
+  width: 30rpx;
+  height: 30rpx;
+  filter: brightness(0) invert(1);
 }
 
 /* 列表模式2 - 网格布局 */
@@ -280,11 +283,14 @@ page, view, image, input {
   align-items: center;
   justify-content: center;
   box-shadow: 0 4rpx 12rpx rgba(228, 57, 60, 0.3);
+  overflow: visible; /* 红点需要溢出 */
 }
 
-/* 购物车图标设置为白色 */
-.list2 .goods-info .buy-info .car .van-icon {
-  color: #FFFFFF !important;
+/* 购物车图标 */
+.list2 .goods-info .buy-info .car .car-icon {
+  width: 28rpx;
+  height: 28rpx;
+  filter: brightness(0) invert(1);
 }
 
 /* 原价样式 */
@@ -412,3 +418,74 @@ page, view, image, input {
   align-self: center;
 }
 /* ========== 商品价格组件结束 ========== */
+
+/* ========== 购物车按钮数量红点 ========== */
+.car-badge {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  background: #ff9500;
+  color: #ffffff;
+  font-size: 18rpx;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 30rpx;
+  height: 30rpx;
+  padding: 0 7rpx;
+  border-radius: 15rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid #ffffff;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+/* ========== 右下角浮动购物车 ========== */
+.float-cart {
+  position: fixed;
+  right: 36rpx;
+  bottom: 120rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #FF6B6B 0%, #E4393C 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(228, 57, 60, 0.45);
+  z-index: 100;
+  transition: transform 0.2s ease;
+  overflow: visible;
+}
+
+.float-cart:active {
+  transform: scale(0.9);
+}
+
+.float-cart-icon {
+  width: 48rpx;
+  height: 48rpx;
+  filter: brightness(0) invert(1);
+}
+
+.float-cart-badge {
+  position: absolute;
+  top: -8rpx;
+  right: -8rpx;
+  background: #ff9500;
+  color: #ffffff;
+  font-size: 20rpx;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 36rpx;
+  height: 36rpx;
+  padding: 0 8rpx;
+  border-radius: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3rpx solid #ffffff;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.2);
+  z-index: 101;
+}
