@@ -51,7 +51,7 @@ page, view, image, input {
 ======================================== */
 
 .list2 {
-  width: calc(50% - 10rpx);
+  width: calc(50% - 15rpx);
   background: #ffffff;
   border-radius: 24rpx;
   overflow: hidden;
